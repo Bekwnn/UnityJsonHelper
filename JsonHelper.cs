@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿// written by Bekwnn, 2015, planet earth, whatever.
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 public class JsonHelper
