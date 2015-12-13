@@ -34,6 +34,7 @@ SomeUnityCode.cs
 ```csharp
 using UnityEngine;
 using System;
+using System.IO;
 
 // look up JsonUtility in the Unity api if this bit confuses you
 [Serializable]
