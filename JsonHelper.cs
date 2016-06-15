@@ -1,4 +1,4 @@
-﻿// written by Bekwnn, 2015, planet earth, whatever.
+﻿// written by Bekwnn, 2015
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
