@@ -1,4 +1,6 @@
 ﻿// written by Bekwnn, 2015
+﻿// contributed by Guney Ozsan, 2016
+﻿
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
@@ -56,5 +58,52 @@ public class JsonHelper
         }
 
         return jsonObjList.ToArray();
+    }
+    
+    public static string[] GetJsonObjectArray(string jsonString, string handle)
+    {
+        string pattern = "\"" + handle + "\"\\s*:\\s*\\[\\s*{";
+
+        Regex regx = new Regex(pattern);
+
+        List<string> jsonObjList = new List<string>();
+
+        Match match = regx.Match(jsonString);
+
+        if (match.Success)
+        {
+            int squareBracketCount = 1;
+            int curlyBracketCount = 1;
+            int startOfObjArray = match.Index + match.Length;
+            int i = startOfObjArray;
+            while (true)
+            {
+                if (jsonString[i] == '[') squareBracketCount++;
+                else if (jsonString[i] == ']') squareBracketCount--;
+
+                int startOfObj = i;
+                for (i = startOfObj; curlyBracketCount > 0; i++)
+                {
+                    if (jsonString[i] == '{') curlyBracketCount++;
+                    else if (jsonString[i] == '}') curlyBracketCount--;
+                }
+                jsonObjList.Add("{" + jsonString.Substring(startOfObj, i - startOfObj));
+
+                // continue with the next array element or return object array if there is no more left
+                while (jsonString[i] != '{')
+                {
+                    if (jsonString[i] == ']' && squareBracketCount == 1)
+                    {
+                        return jsonObjList.ToArray();
+                    }
+                    i++;
+                }
+                curlyBracketCount = 1;
+                i++;
+            }
+        }
+
+        //no match, return null
+        return null;
     }
 }
